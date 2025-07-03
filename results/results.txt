@@ -1,0 +1,109 @@
+Total records: 7128
+
+-------- Dataset: PACS, model selection method: training-domain validation set
+Algorithm             A                     C                     P                     S                     Avg                  
+ERM                   83.3 +/- 0.0          80.3 +/- 0.0          98.2 +/- 0.0          80.1 +/- 0.0          85.5                 
+ERMPlusPlus           88.6 +/- 0.0          82.2 +/- 0.0          98.6 +/- 0.0          83.9 +/- 0.0          88.3                 
+Mixup                 87.7 +/- 0.0          80.9 +/- 0.0          97.5 +/- 0.0          78.5 +/- 0.0          86.1                 
+CORAL                 88.2 +/- 0.0          79.6 +/- 0.0          97.5 +/- 0.0          78.4 +/- 0.0          85.9                 
+ADRMX                 86.8 +/- 0.0          79.5 +/- 0.0          98.2 +/- 0.0          76.5 +/- 0.0          85.2                 
+URM                   85.1 +/- 0.0          81.2 +/- 0.0          97.3 +/- 0.0          78.1 +/- 0.0          85.4                 
+
+-------- Dataset: OfficeHome, model selection method: training-domain validation set
+Algorithm             A                     C                     P                     R                     Avg                  
+ERM                   67.4 +/- 0.0          58.1 +/- 0.0          78.6 +/- 0.0          81.7 +/- 0.0          71.4                 
+ERMPlusPlus           69.9 +/- 0.0          61.6 +/- 0.0          81.2 +/- 0.0          83.6 +/- 0.0          74.1                 
+Mixup                 67.3 +/- 0.0          58.8 +/- 0.0          79.9 +/- 0.0          80.8 +/- 0.0          71.7                 
+CORAL                 66.9 +/- 0.0          56.6 +/- 0.0          79.1 +/- 0.0          81.2 +/- 0.0          71.0                 
+ADRMX                 68.9 +/- 0.0          59.6 +/- 0.0          80.0 +/- 0.0          81.9 +/- 0.0          72.6                 
+URM                   66.0 +/- 0.0          59.4 +/- 0.0          78.4 +/- 0.0          79.7 +/- 0.0          70.9                 
+
+-------- Dataset: DomainNet, model selection method: training-domain validation set
+Algorithm             clip                  info                  paint                 quick                 real                  sketch                Avg                  
+ERM                   64.8 +/- 0.0          23.3 +/- 0.0          51.9 +/- 0.0          14.3 +/- 0.0          65.8 +/- 0.0          54.8 +/- 0.0          45.8                 
+ERMPlusPlus           63.5 +/- 0.0          23.6 +/- 0.0          53.6 +/- 0.0          14.2 +/- 0.0          66.3 +/- 0.0          56.5 +/- 0.0          46.3                 
+Mixup                 62.2 +/- 0.0          21.3 +/- 0.0          51.5 +/- 0.0          12.4 +/- 0.0          61.1 +/- 0.0          54.9 +/- 0.0          43.9                 
+CORAL                 64.8 +/- 0.0          21.8 +/- 0.0          50.3 +/- 0.0          13.6 +/- 0.0          64.4 +/- 0.0          55.2 +/- 0.0          45.0                 
+ADRMX                 44.0 +/- 0.0          19.4 +/- 0.0          42.6 +/- 0.0          9.6 +/- 0.0           50.5 +/- 0.0          43.0 +/- 0.0          34.8                 
+URM                   62.1 +/- 0.0          23.3 +/- 0.0          51.8 +/- 0.0          12.8 +/- 0.0          63.5 +/- 0.0          54.8 +/- 0.0          44.7                 
+
+-------- Averages, model selection method: training-domain validation set
+Algorithm                  PACS                       OfficeHome                 DomainNet                  Avg                       
+ERM                        85.5 +/- 0.0               71.4 +/- 0.0               45.8 +/- 0.0               67.6                      
+ERMPlusPlus                88.3 +/- 0.0               74.1 +/- 0.0               46.3 +/- 0.0               69.6                      
+Mixup                      86.1 +/- 0.0               71.7 +/- 0.0               43.9 +/- 0.0               67.2                      
+CORAL                      85.9 +/- 0.0               71.0 +/- 0.0               45.0 +/- 0.0               67.3                      
+ADRMX                      85.2 +/- 0.0               72.6 +/- 0.0               34.8 +/- 0.0               64.2                      
+URM                        85.4 +/- 0.0               70.9 +/- 0.0               44.7 +/- 0.0               67.0                      
+
+-------- Dataset: PACS, model selection method: leave-one-domain-out cross-validation
+Algorithm             A                     C                     P                     S                     Avg                  
+ERM                   83.3 +/- 0.0          82.6 +/- 0.0          98.2 +/- 0.0          79.5 +/- 0.0          85.9                 
+ERMPlusPlus           87.4 +/- 0.0          82.7 +/- 0.0          98.1 +/- 0.0          83.7 +/- 0.0          88.0                 
+Mixup                 87.9 +/- 0.0          74.3 +/- 0.0          97.8 +/- 0.0          82.6 +/- 0.0          85.6                 
+CORAL                 82.1 +/- 0.0          83.2 +/- 0.0          96.6 +/- 0.0          81.2 +/- 0.0          85.8                 
+ADRMX                 86.7 +/- 0.0          81.0 +/- 0.0          98.4 +/- 0.0          77.1 +/- 0.0          85.8                 
+URM                   88.5 +/- 0.0          82.2 +/- 0.0          98.2 +/- 0.0          76.1 +/- 0.0          86.3                 
+
+-------- Dataset: OfficeHome, model selection method: leave-one-domain-out cross-validation
+Algorithm             A                     C                     P                     R                     Avg                  
+ERM                   66.4 +/- 0.0          55.8 +/- 0.0          79.4 +/- 0.0          80.2 +/- 0.0          70.4                 
+ERMPlusPlus           69.7 +/- 0.0          60.6 +/- 0.0          81.1 +/- 0.0          83.7 +/- 0.0          73.8                 
+Mixup                 66.5 +/- 0.0          57.8 +/- 0.0          79.8 +/- 0.0          81.2 +/- 0.0          71.3                 
+CORAL                 66.9 +/- 0.0          57.6 +/- 0.0          79.7 +/- 0.0          81.0 +/- 0.0          71.3                 
+ADRMX                 69.8 +/- 0.0          58.3 +/- 0.0          79.5 +/- 0.0          82.4 +/- 0.0          72.5                 
+URM                   65.4 +/- 0.0          56.0 +/- 0.0          78.8 +/- 0.0          80.7 +/- 0.0          70.2                 
+
+-------- Dataset: DomainNet, model selection method: leave-one-domain-out cross-validation
+Algorithm             clip                  info                  paint                 quick                 real                  sketch                Avg                  
+ERM                   X                     X                     X                     X                     X                     X                     X                    
+ERMPlusPlus           X                     X                     X                     X                     X                     X                     X                    
+Mixup                 X                     X                     X                     X                     X                     X                     X                    
+CORAL                 X                     X                     X                     X                     X                     X                     X                    
+ADRMX                 X                     X                     X                     X                     X                     X                     X                    
+URM                   X                     X                     X                     X                     X                     X                     X                    
+
+-------- Averages, model selection method: leave-one-domain-out cross-validation
+Algorithm                  PACS                       OfficeHome                 DomainNet                  Avg                       
+ERM                        85.9 +/- 0.0               70.4 +/- 0.0               X                          X                         
+ERMPlusPlus                88.0 +/- 0.0               73.8 +/- 0.0               X                          X                         
+Mixup                      85.6 +/- 0.0               71.3 +/- 0.0               X                          X                         
+CORAL                      85.8 +/- 0.0               71.3 +/- 0.0               X                          X                         
+ADRMX                      85.8 +/- 0.0               72.5 +/- 0.0               X                          X                         
+URM                        86.3 +/- 0.0               70.2 +/- 0.0               X                          X                         
+
+-------- Dataset: PACS, model selection method: test-domain validation set (oracle)
+Algorithm             A                     C                     P                     S                     Avg                  
+ERM                   85.4 +/- 0.0          82.8 +/- 0.0          98.2 +/- 0.0          79.5 +/- 0.0          86.5                 
+ERMPlusPlus           89.7 +/- 0.0          84.6 +/- 0.0          98.7 +/- 0.0          83.0 +/- 0.0          89.0                 
+Mixup                 86.7 +/- 0.0          78.4 +/- 0.0          97.5 +/- 0.0          80.8 +/- 0.0          85.8                 
+CORAL                 84.5 +/- 0.0          82.9 +/- 0.0          96.6 +/- 0.0          80.9 +/- 0.0          86.3                 
+ADRMX                 86.0 +/- 0.0          80.3 +/- 0.0          98.5 +/- 0.0          76.7 +/- 0.0          85.4                 
+URM                   85.1 +/- 0.0          80.5 +/- 0.0          96.9 +/- 0.0          75.3 +/- 0.0          84.5                 
+
+-------- Dataset: OfficeHome, model selection method: test-domain validation set (oracle)
+Algorithm             A                     C                     P                     R                     Avg                  
+ERM                   64.3 +/- 0.0          55.3 +/- 0.0          77.5 +/- 0.0          80.4 +/- 0.0          69.4                 
+ERMPlusPlus           68.6 +/- 0.0          61.6 +/- 0.0          81.4 +/- 0.0          83.2 +/- 0.0          73.7                 
+Mixup                 64.3 +/- 0.0          59.2 +/- 0.0          79.4 +/- 0.0          80.1 +/- 0.0          70.7                 
+CORAL                 64.4 +/- 0.0          57.6 +/- 0.0          76.9 +/- 0.0          79.9 +/- 0.0          69.7                 
+ADRMX                 68.4 +/- 0.0          58.4 +/- 0.0          80.0 +/- 0.0          81.4 +/- 0.0          72.1                 
+URM                   62.7 +/- 0.0          51.7 +/- 0.0          75.8 +/- 0.0          76.6 +/- 0.0          66.7                 
+
+-------- Dataset: DomainNet, model selection method: test-domain validation set (oracle)
+Algorithm             clip                  info                  paint                 quick                 real                  sketch                Avg                  
+ERM                   64.8 +/- 0.0          23.3 +/- 0.0          52.3 +/- 0.0          14.3 +/- 0.0          65.8 +/- 0.0          54.8 +/- 0.0          45.9                 
+ERMPlusPlus           63.5 +/- 0.0          23.6 +/- 0.0          53.6 +/- 0.0          14.5 +/- 0.0          66.3 +/- 0.0          56.5 +/- 0.0          46.3                 
+Mixup                 62.2 +/- 0.0          21.3 +/- 0.0          51.5 +/- 0.0          12.4 +/- 0.0          61.1 +/- 0.0          54.9 +/- 0.0          43.9                 
+CORAL                 64.8 +/- 0.0          21.5 +/- 0.0          51.0 +/- 0.0          13.6 +/- 0.0          64.4 +/- 0.0          55.2 +/- 0.0          45.1                 
+ADRMX                 44.0 +/- 0.0          19.4 +/- 0.0          42.6 +/- 0.0          9.6 +/- 0.0           50.5 +/- 0.0          43.0 +/- 0.0          34.8                 
+URM                   62.1 +/- 0.0          23.3 +/- 0.0          51.8 +/- 0.0          13.7 +/- 0.0          63.5 +/- 0.0          54.8 +/- 0.0          44.9                 
+
+-------- Averages, model selection method: test-domain validation set (oracle)
+Algorithm                  PACS                       OfficeHome                 DomainNet                  Avg                       
+ERM                        86.5 +/- 0.0               69.4 +/- 0.0               45.9 +/- 0.0               67.2                      
+ERMPlusPlus                89.0 +/- 0.0               73.7 +/- 0.0               46.3 +/- 0.0               69.7                      
+Mixup                      85.8 +/- 0.0               70.7 +/- 0.0               43.9 +/- 0.0               66.8                      
+CORAL                      86.3 +/- 0.0               69.7 +/- 0.0               45.1 +/- 0.0               67.0                      
+ADRMX                      85.4 +/- 0.0               72.1 +/- 0.0               34.8 +/- 0.0               64.1                      
+URM                        84.5 +/- 0.0               66.7 +/- 0.0               44.9 +/- 0.0               65.3                      
