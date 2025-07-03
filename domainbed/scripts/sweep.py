@@ -136,7 +136,7 @@ def ask_for_confirmation():
 DATASETS = [d for d in datasets.DATASETS if "Debug" not in d]
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Run a sweep')
+    parser = argparse.ArgumentParser(description='Run a sweep', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('command', choices=['launch', 'delete_incomplete'])
     parser.add_argument('--datasets', nargs='+', type=str, default=DATASETS)
     parser.add_argument('--algorithms', nargs='+', type=str, default=algorithms.ALGORITHMS)
@@ -171,8 +171,25 @@ if __name__ == "__main__":
 
     jobs = [Job(train_args, args.output_dir) for train_args in args_list]
 
+    import pandas as pd
+    
+    lines = []
     for job in jobs:
-        print(job)
+        lines.append({
+            'state': job.state,
+            'dataset': job.train_args['dataset'],
+            'algorithm': job.train_args['algorithm'],
+            'test_envs': job.train_args['test_envs'],
+            'hparams_seed': job.train_args['hparams_seed'],
+            'trial_seed': job.train_args['trial_seed'],
+            'seed': job.train_args['seed'],
+            'output_dir': job.output_dir,
+            # 'command_str': job.command_str,
+
+        })
+    df = pd.DataFrame(lines).sort_values(by=["state", "algorithm", "dataset"]).reset_index(drop=True)
+    print(df.to_markdown(index=False))
+        
     print("{} jobs: {} done, {} incomplete, {} not launched.".format(
         len(jobs),
         len([j for j in jobs if j.state == Job.DONE]),
