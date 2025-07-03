@@ -1,0 +1,105 @@
+# DomainBed Notes
+
+1. Crei o venv e instalei as dependências do DomainBed (`create_venv.sh`).
+2. Baixei os datasets do DomainBed e estou tentando rodar o código.
+
+Vamos la, depurar o DomainBed executando o ERM com o dataset do PACS.
+
+O comando utilizado para rodar o ERM no PACS é
+```bash
+python domainbed.scripts.train --data_dir /workspaces/DomainGeneralization/DomainBed/domainbed/data/ --algorithm ERM --dataset PACS --test_env 2 
+```
+
+Inicialmente temos a seguinte configuração do ambiente, impressa pelo script:
+
+```
+Environment:
+        Python: 3.10.12
+        PyTorch: 2.7.1+cu126
+        Torchvision: 0.22.1+cu126
+        CUDA: 12.6
+        CUDNN: 90501
+        NumPy: 2.2.6
+        PIL: 11.2.1
+Args:
+        algorithm: ERM
+        checkpoint_freq: None
+        data_dir: /workspaces/DomainGeneralization/DomainBed/domainbed/data/
+        dataset: PACS
+        holdout_fraction: 0.2
+        hparams: None
+        hparams_seed: 0
+        output_dir: train_output
+        save_model_every_checkpoint: False
+        seed: 0
+        skip_model_save: False
+        steps: None
+        task: domain_generalization
+        test_envs: [2]
+        trial_seed: 0
+        uda_holdout_fraction: 0
+HParams:
+        batch_size: 32
+        class_balanced: False
+        data_augmentation: True
+        dinov2: False
+        freeze_bn: False
+        lars: False
+        linear_steps: 500
+        lr: 5e-05
+        nonlinear_classifier: False
+        resnet18: False
+        resnet50_augmix: True
+        resnet_dropout: 0.0
+        vit: False
+        vit_attn_tune: False
+        vit_dropout: 0.0
+        weight_decay: 0.0
+```
+
+Ao depurar o código no `train.py` instancia-se o objeto `dataset` que é um `PACS` que é um `MultipleEnvironmentImageFolder` que é um `MultipleDomainDataset`. No fundo é um dataset que armazena `ImageFolder` de cada domínio, ou seja, cada domínio é um diretório com imagens. Se acessarmos o atributo `dataset.datasets` veremos que é uma lista de `ImageFolder` com os diretórios de cada domínio. O tamanho de `dataset` é 4, pois o PACS tem 4 domínios: `art_painting`, `cartoon`, `photo` e `sketch`.
+O atributo `dataset.datasets[0]` é um `ImageFolder` que contém as imagens do domínio `art_painting`. 
+
+> **NOTA**: A variável test_envs é uma lista de índices dos domínios que serão usados para teste. No caso, o índice 2 corresponde ao domínio `photo`. As aumentações de dados são aplicadas apenas no treinamento. No teste, não são aplicadas aumentações de dados, apenas a normalização.
+
+Tem um loop `for env_i, env in enumerate(dataset)` que itera sobre os domínios. `out` é um subsconjunto de dados com do dominio atual da fração de holdout (20% dos dados). Se a tarefa for de adaptação de domínio uma parte do conjunto de teste (uda_holdout_fraction) é separada para validação.
+`in_splits` é uma lista com os subconjuntos de treino de cada domínio, e `out_splits` é uma lista com os subconjuntos de validação de cada domínio (includindo teste). Nota que é uma lista de tuplas, onde o primeiro elemento é o dataset e o segundo um float (caso seja "class_balanced"), ou None (caso não seja balanceado por classe -- padrão).
+`uda` é sempre uma fração do conjunto de teste, que é usado para adaptação de domínio. Se 
+
+> **NOTA**: Os subconjuntos são aleatoriamente embaralhados e a seed é baseada no trial_seed e no env_i. 
+
+Para cada subconunto em `in_splits` (com exceção do de teste `test_envs`), é criado um `DataLoader` infinito que itera sobre os dados de treinamento (RandomSampler(replacement=True)). 
+
+> **NOTA** in_splits e out_splits são listas de tuplas para todos os domínios, mas apenas o subconjunto de treinamento é usado para treinar o modelo. `uda_loaders` é vazio para DG.
+
+A variavel `eval_loades` é uma lista com todos os `in_splits`, `out_splits` e `uda` (se houver). Desta forma, o código deles gera todas as coisas, listas de DataLoaders, avaliação , etc e posteriormente será condicionalmente usado dependendo do algoritmo/variaveis.
+
+O algoritmo é criado, no caso ERM. Todos precisam de `input_shape` (3, 224, 224), `num_classes` (7), `num_domains` (3) -- que são os numeros de domínios de treino e `hparams`, um dicionário com os hiperparâmetros, usado para:
+- Criar o Featurizer (backbone)
+    - Se input_shape == 1: MLP
+    - Se input_shape == (28, 28): MNIST_CNN
+    - Se input_shape == (32, 32): Wide_ResNet
+    - Senão (nosso caso). Se hparams["vit"] == True: DinoV2 ViT, senão ResNet. 
+        - hparams['resnet18'] cria a resnet18
+        - hparams['resnet50_augmix'] cria a resnet50 com aumentação de dados (`timm.create_model('resnet50.ram_in1k', pretrained=True)`)
+        - Se hparams["freeze_bn"]: freeze batch normalization
+        - Se hparams["resnet_dropout"] > 0: adiciona dropout ao final da rede: 
+        > **NOTA**: Os fc são sempre usados  como idendidade nesta parte
+```python
+    def forward(self, x):
+        """Encode x into a feature vector of size n_outputs."""
+        return self.activation(self.dropout(self.network(x)))
+```
+- Criar o Classifier (head):
+    - Se hparams["nonlinear_classifier"]: MLP com 1 camada oculta, MLP(input_shape[0], input_shape[0]/2, input_shape[0]/4, num_classes)
+    - Senão: Linear (input_shape[0], num_classes)
+Por fim, a rede é um sequencial com o featurizer e o classifier.
+O otimizador é adam com lr vindo de hparams["lr"] e weight decay de hparams["weight_decay"]. 
+
+Desta forma, o algoritmo é um modelo (torch.nn.Module) com os métodos `update` e `predit` e é responsavel por:
+- Criar o modelo (featurizer + classifier)
+- Criar o otimizador
+- Criar o scheduler (se houver)
+- Definir a função de perda (no método `update`)
+- Treinar por um batch (método `update`)
+
